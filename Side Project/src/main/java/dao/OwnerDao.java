@@ -10,7 +10,7 @@ public interface OwnerDao {
 
     List<Owner> getOwners();
 
-    Owner createOwner(Owner newOwner);
+    void createOwner(String owner);
 
     void deleteOwner(int ownerId);
 }

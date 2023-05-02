@@ -3,11 +3,13 @@ package dao;
 import model.Owner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcOwnerDao implements OwnerDao{
 
     private final JdbcTemplate jdbcTemplate;
@@ -42,12 +44,11 @@ public class JdbcOwnerDao implements OwnerDao{
     }
 
     @Override
-    public Owner createOwner(Owner newOwner){
-        String sql = "INSERT INTO owner_info (owner_id, owner_name) " +
-                "VALUES (DEFAULT, ?) RETURNING owner_id;";
-        Integer ownerId = jdbcTemplate.queryForObject(sql, Integer.class, newOwner.getOwnerName());
-        newOwner.setOwnerId(ownerId);
-        return newOwner;
+    public void createOwner(String ownerName){
+        String sql = "INSERT INTO owner_info (owner_name) " +
+                "VALUES (?);";
+       jdbcTemplate.update(sql, ownerName);
+
     }
 
     @Override
